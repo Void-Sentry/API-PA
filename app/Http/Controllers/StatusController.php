@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Status;
+use App\Contracts\RepositoryInterfaceStatus;
 
 class StatusController extends Controller
 {
+    protected $RepositoryStatus;
+
+    public function __construct(RepositoryInterfaceStatus $repository)
+    {
+        $this->RepositoryStatus = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class StatusController extends Controller
      */
     public function index()
     {
-        return response()->json(Status::all(), 200);
+        return response()->json($this->RepositoryStatus->index(), 200);
     }
 
     /**
@@ -27,7 +35,7 @@ class StatusController extends Controller
     {   
         try
         {
-            Status::create($request->all());
+            $this->RepositoryStatus->store($request);
 
             return response()->json('Created!', 200);
         }
@@ -47,7 +55,7 @@ class StatusController extends Controller
     {
         try
         {
-            return response()->json(Status::find($id), 200);
+            return response()->json($this->RepositoryStatus->show($id), 200);
         }
         catch(Exception $e)
         {
@@ -66,9 +74,7 @@ class StatusController extends Controller
     {
         try
         {
-            $item = Status::findOrFail($id);
-            $item->fill($request->all());
-            $item->save();
+            $this->RepositoryStatus->update($request, $id);
 
             return response()->json('Updated!', 200);
         }
@@ -88,8 +94,7 @@ class StatusController extends Controller
     {
         try
         {
-            $item = Status::findOrFail($id);
-            $item->delete();
+            $this->RepositoryStatus->destroy($id);
 
             return response()->json('Deleted!', 200);
         }

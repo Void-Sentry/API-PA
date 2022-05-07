@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Contracts\RepositoryInterfaceRole;
 
 class RoleController extends Controller
 {
+    protected $RepositoryRole;
+
+    public function __construct(RepositoryInterfaceRole $repository)
+    {
+        $this->RepositoryRole = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return response()->json(Role::all(), 200);
+        return response()->json($this->RepositoryRole->index(), 200);
     }
 
     /**
@@ -27,7 +35,7 @@ class RoleController extends Controller
     {
         try
         {
-            Role::create($request->all());
+            $this->RepositoryRole->store($request);
 
             return response()->json('Created!', 200);
         }
@@ -47,9 +55,7 @@ class RoleController extends Controller
     {
         try
         {
-            $item = Role::find($id);
-
-            return response()->json($item, 200);
+            return response()->json($this->RepositoryRole->show($id), 200);
         }
         catch(Exception $e)
         {
@@ -68,9 +74,7 @@ class RoleController extends Controller
     {
         try
         {
-            $item = Role::findOrFail($id);
-            $item->fill($request->all());
-            $item->save();
+            $this->RepositoryRole->update($request, $id);
 
             return response()->json('Updated!', 200);
         }
@@ -90,8 +94,7 @@ class RoleController extends Controller
     {
         try
         {
-            $item = Role::findOrFail($id);
-            $item->delete();
+            $this->RepositoryRole->destroy($id);
 
             return response()->json('Deleted!', 200);
         }

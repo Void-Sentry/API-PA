@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Contracts\RepositoryInterfaceUser;
 
 class UserController extends Controller
 {
+    protected $RepositoryUser;
+
+    public function __construct(RepositoryInterfaceUser $repository)
+    {
+        $this->RepositoryUser = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::all(), 200);
+        return response()->json($this->RepositoryUser->index(), 200);
     }
 
     /**
@@ -24,7 +32,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         //
     }
 
@@ -36,7 +44,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        try
+        {
+            return response()->json($this->RepositoryUser->show($id), 200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -50,15 +65,13 @@ class UserController extends Controller
     {
         try
         {
-            $item = User::findOrFail($id);
-            $item->fill($request->all());
-            $item->save();
+            $this->RepositoryUser->update($request, $id);
 
             return response()->json('Updated!', 200);
         }
         catch(Exception $e)
         {
-            return response()->json($e, 500);
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -72,14 +85,13 @@ class UserController extends Controller
     {
         try
         {
-            $item = User::findOrFail($id);
-            $item->delete();
+            $this->RepositoryUser->destroy($id);
 
             return response()->json('Deleted!', 200);
         }
         catch(Exception $e)
         {
-            return response()->json($e, 500);
+            return response()->json($e->getMessage(), 500);
         }
     }
 }
