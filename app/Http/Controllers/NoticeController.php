@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notice;
+use App\Contracts\RepositoryInterfaceNotice;
 
 class NoticeController extends Controller
 {
+    protected $RepositoryNotice;
+
+    public function __construct(RepositoryInterfaceNotice $repo)
+    {
+        $this->RepositoryNotice = $repo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class NoticeController extends Controller
      */
     public function index()
     {
-        return response()->json(Notice::all(), 200);
+        return response()->json($this->RepositoryNotice->index(), 200);
     }
 
     /**
@@ -27,7 +35,7 @@ class NoticeController extends Controller
     {
         try
         {
-            Notice::create($request->all());
+            $this->RepositoryNotice->store($request);
 
             return response()->json('Created!', 200);
         }
@@ -47,8 +55,7 @@ class NoticeController extends Controller
     {
         try
         {
-            $item = Notice::find($id);
-            return response()->json($item, 200);
+            return response()->json($this->RepositoryNotice->show($id), 200);
         }
         catch(Exception $e)
         {
@@ -67,9 +74,7 @@ class NoticeController extends Controller
     {
         try
         {
-            $item = Notice::findOrFail($id);
-            $item->fill($request->all());
-            $item->save();
+            $this->RepositoryNotice->update($request, $id);
 
             return response()->json('Updated!', 200);
         }
@@ -89,8 +94,7 @@ class NoticeController extends Controller
     {
         try
         {
-            $item = Notice::findOrFail($id);
-            $item->delete();
+            $this->RepositoryNotice->destroy($id);
 
             return response()->json('Deleted!', 200);
         }
