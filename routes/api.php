@@ -19,6 +19,8 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::post('register', [AuthController::class, 'register']);
+
 Route::post('login', [AuthController::class, 'login']);
 
 Route::controller(NoticeController::class)->group(function(){
@@ -60,8 +62,6 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         
         Route::delete('user/{id}', 'destroy')->middleware(['auth:sanctum', 'ability:dev,diretor']);
     });
-
-    Route::post('register', [AuthController::class, 'register'])->middleware(['auth:sanctum', 'ability:dev,diretor']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
