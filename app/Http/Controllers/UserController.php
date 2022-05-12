@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use Illuminate\Http\Response;
 use App\Contracts\RepositoryInterfaceUser;
 
 class UserController extends Controller
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json($this->RepositoryUser->index(), 200);
+        return response()->json($this->RepositoryUser->index(), Response::HTTP_OK);
     }
 
     /**
@@ -46,11 +46,11 @@ class UserController extends Controller
     {
         try
         {
-            return response()->json($this->RepositoryUser->show($id), 200);
+            return response()->json($this->RepositoryUser->show($id), Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e->getMessage(), 500);
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -67,11 +67,11 @@ class UserController extends Controller
         {
             $this->RepositoryUser->update($request, $id);
 
-            return response()->json('Updated!', 200);
+            return response()->json('Updated!', Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e->getMessage(), 500);
+            return response()->json($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -87,11 +87,11 @@ class UserController extends Controller
         {
             $this->RepositoryUser->destroy($id);
 
-            return response()->json('Deleted!', 200);
+            return response()->json('Deleted!', Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e->getMessage(), 500);
+            return response()->json($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
 }

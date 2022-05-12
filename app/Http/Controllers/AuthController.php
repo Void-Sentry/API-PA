@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -30,11 +31,11 @@ class AuthController extends Controller
                 'role_id' => $request->role
             ]);
 
-            return response()->json(['status' => 'user registered successfully!', 'token_type' => 'Bearer'], 200);
+            return response()->json(['status' => 'user registered successfully!', 'token_type' => 'Bearer'], Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e->getMessage(), 404);
+            return response()->json($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -60,7 +61,7 @@ class AuthController extends Controller
         }
         catch(Exception $e)
         {
-            return response()->json($e->getMessage(), 401);
+            return response()->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -70,11 +71,11 @@ class AuthController extends Controller
         {
             auth()->user()->tokens()->delete();
 
-            return response()->json('Logout successful!', 200);
+            return response()->json('Logout successful!', Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e->getMessage(), 404);
+            return response()->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -10,7 +10,12 @@ class Status extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'image_id'];
 
     protected $dates = ['deleted_at'];
+
+    public function Image()
+    {
+        return $this->hasOne(Image::class, 'image_id');
+    }
 }

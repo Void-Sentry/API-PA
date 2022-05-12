@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Notice;
+use Illuminate\Http\Response;
 use App\Contracts\RepositoryInterfaceNotice;
 
 class NoticeController extends Controller
@@ -22,7 +22,7 @@ class NoticeController extends Controller
      */
     public function index()
     {
-        return response()->json($this->RepositoryNotice->index(), 200);
+        return response()->json($this->RepositoryNotice->index(), Response::HTTP_OK);
     }
 
     /**
@@ -37,11 +37,11 @@ class NoticeController extends Controller
         {
             $this->RepositoryNotice->store($request);
 
-            return response()->json('Created!', 200);
+            return response()->json('Created!', Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e, 500);
+            return response()->json($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -55,11 +55,11 @@ class NoticeController extends Controller
     {
         try
         {
-            return response()->json($this->RepositoryNotice->show($id), 200);
+            return response()->json($this->RepositoryNotice->show($id), Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e, 500);
+            return response()->json($e, Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -76,11 +76,11 @@ class NoticeController extends Controller
         {
             $this->RepositoryNotice->update($request, $id);
 
-            return response()->json('Updated!', 200);
+            return response()->json('Updated!', Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e, 500);
+            return response()->json($e, Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -96,11 +96,11 @@ class NoticeController extends Controller
         {
             $this->RepositoryNotice->destroy($id);
 
-            return response()->json('Deleted!', 200);
+            return response()->json('Deleted!', Response::HTTP_OK);
         }
         catch(Exception $e)
         {
-            return response()->json($e, 500);
+            return response()->json($e, Response::HTTP_NOT_FOUND);
         }
     }
 }

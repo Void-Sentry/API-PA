@@ -17,6 +17,7 @@ class BindServiceProvider extends ServiceProvider
         \App::bind('App\Contracts\RepositoryInterfaceRole', 'App\Repository\RepositoryRole');
         \App::bind('App\Contracts\RepositoryInterfaceStatus', 'App\Repository\RepositoryStatus');
         \App::bind('App\Contracts\RepositoryInterfaceUser', 'App\Repository\RepositoryUser');
+        \App::bind('App\Contracts\RepositoryInterfaceImage', 'App\Repository\RepositoryImage');
     }
 
     /**

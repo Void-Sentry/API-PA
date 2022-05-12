@@ -10,7 +10,7 @@ class Notice extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['title', 'description', 'status_id', 'user_id'];
+    protected $fillable = ['title', 'description', 'body' ,'status_id', 'user_id', 'image_id'];
 
     protected $dates = ['deleted_at'];
 
@@ -21,6 +21,11 @@ class Notice extends Model
 
     public function User()
     {
-        return $this->hasMany(Status::class, 'user_id');
+        return $this->hasMany(User::class, 'user_id');
+    }
+
+    public function Image()
+    {
+        return $this->hasMany(Image::class, 'image_id');
     }
 }
