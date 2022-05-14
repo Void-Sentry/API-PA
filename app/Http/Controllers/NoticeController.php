@@ -103,4 +103,22 @@ class NoticeController extends Controller
             return response()->json($e, Response::HTTP_NOT_FOUND);
         }
     }
+
+    /**
+     * Find all user's notices from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userNotices($id)
+    {
+        try
+        {
+            return response()->json($this->RepositoryNotice->userNotices($id), Response::HTTP_OK);
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

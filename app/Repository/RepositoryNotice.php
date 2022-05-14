@@ -14,4 +14,9 @@ class RepositoryNotice extends AbstractRepository implements RepositoryInterface
     {
         $this->model = $model;
     }
+
+    public function userNotices($id)
+    {
+        return $this->model::where('user_id', $id)->get();
+    }
 }
