@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('image_id')->references('id')->on('images');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
