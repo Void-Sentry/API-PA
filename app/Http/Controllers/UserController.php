@@ -94,4 +94,12 @@ class UserController extends Controller
             return response()->json($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
+
+    public function roleUser(){
+        try{
+            return response()->json($this->RepositoryUser->roleUser(), Response::HTTP_OK);
+        }catch(Exception $e){
+            return response()->json($e->getMessage(), Response::HTTP_NOT_FOUND);
+        }       
+    }
 }

@@ -15,5 +15,7 @@ Route::controller(UserController::class)->group(function()
     Route::put('{id}', 'update');
 
     Route::delete('{id}', 'destroy');
+
+    Route::get('list/role', 'roleUser');
     
 });
