@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api/notice/notice.php'));
 
             Route::prefix('api/role')
-                ->middleware(['auth:sanctum', 'ability:diretor,dev'])
+  // s             ->middleware(['auth:sanctum', 'ability:diretor,dev'])
                 ->group(base_path('routes/api/role/role.php'));
             
             Route::prefix('api/status')
