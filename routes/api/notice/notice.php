@@ -17,5 +17,8 @@ Route::controller(NoticeController::class)->group(function()
     Route::put('{id}', 'update')->middleware(['auth:sanctum']);
 
     Route::delete('{id}', 'destroy')->middleware(['auth:sanctum']);
+
+    Route::patch('{id}', 'state')->middleware(['auth:sanctum']);
     
+    Route::get('list/notice/state', 'findAllNotice');
 });

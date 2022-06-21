@@ -121,4 +121,26 @@ class NoticeController extends Controller
             return response()->json($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    public function state($id)
+    {
+        try
+        {
+            return response()->json($this->RepositoryNotice->state($id), Response::HTTP_OK);
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function findAllNotice()
+    {
+        try
+        {
+            return response()->json($this->RepositoryNotice->findAllNotice(), Response::HTTP_OK);
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
