@@ -10,7 +10,7 @@ class Notice extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['title', 'description', 'body' ,'status_id', 'user_id', 'image_id'];
+    protected $fillable = ['title', 'description', 'body' ,'status_id', 'user_id', 'image_id', 'state'];
 
     protected $dates = ['deleted_at'];
 
